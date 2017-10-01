@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import Styles from '../styles/main.js';
 
 class Main extends Component {
   static navigationOptions = {
-    title: 'Main',
+    title: 'Home',
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
-      <View>
-        <Text>React Native Boilerplate Test</Text>
+      <View style={Styles.content}>
+        <Text>Welcome!</Text>
+        <Button
+          onPress={() => {navigate('NewEntryComponent')}}
+          title="Make New Entry"
+        />
       </View>
     );
   }

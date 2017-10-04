@@ -16,6 +16,10 @@ class Main extends Component {
           onPress={() => {navigate('NewEntryComponent')}}
           title="Make New Entry"
         />
+        <Button
+          onPress={() => {navigate('ViewEntriesComponent')}}
+          title="View Entries"
+        />
       </View>
     );
   }

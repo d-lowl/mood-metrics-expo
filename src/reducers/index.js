@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import BaseNavigation from '../Router';
-import simple from './simple';
+import entry from './entry';
 
 export default combineReducers({
   navigation: (state, action) => BaseNavigation.router.getStateForAction(action, state),
   state: (state = {}) => state,
-  simple
+  entry
 });

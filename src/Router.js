@@ -1,13 +1,13 @@
 import { StackNavigator } from 'react-navigation';
 
 import Main from './components/Main';
-import NewEntryComponent from './components/NewEntryComponent';
-import ViewEntriesComponent from './components/ViewEntriesComponent';
+import NewEntryContainer from './containers/NewEntryContainer';
+import ViewEntriesContainer from './containers/ViewEntriesContainer';
 
 const BaseNavigation = StackNavigator({
   Main: { screen: Main },
-  NewEntryComponent: {screen: NewEntryComponent},
-  ViewEntriesComponent: {screen: ViewEntriesComponent}
+  NewEntryContainer: {screen: NewEntryContainer},
+  ViewEntriesContainer: {screen: ViewEntriesContainer}
 });
 
 export default BaseNavigation;

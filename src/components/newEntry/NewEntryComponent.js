@@ -21,7 +21,6 @@ class NewEntryComponent extends Component {
         <Button
           onPress={() => {
             this.props.newEntry(this.state);
-            this.props.goBack();
           }}
           title="Submit"
         />

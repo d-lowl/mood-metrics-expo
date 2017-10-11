@@ -7,6 +7,7 @@ import { setState, newEntry } from '../actions';
 
 function newEntryHandler(mood) {
   store.dispatch(newEntry(null,mood));
+  this.props.navigation.goBack();
 }
 
 class NewEntryContainer extends Component {
@@ -17,8 +18,7 @@ class NewEntryContainer extends Component {
   render() {
     return (
       <NewEntryComponent
-        newEntry={newEntryHandler}
-        goBack={this.props.navigation.goBack}/>
+        newEntry={newEntryHandler}/>
     );
   }
 }

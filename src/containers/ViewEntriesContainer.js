@@ -12,9 +12,7 @@ class ViewEntriesContainer extends Component {
     console.log(this.props.entry);
     return (
       <View style={Styles.content}>
-        <Text>Last Entry: {this.props.entry.datetime}</Text>
-        <Text>Last Entry: {this.props.entry.mood}</Text>
-        <Text>Last Entry: {this.props.entry.value}</Text>
+        <Text>Last Entry: {JSON.stringify(this.props.entry)}</Text>
       </View>
     );
   }

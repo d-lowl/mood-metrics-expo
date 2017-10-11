@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Picker } from 'react-native';
 import Styles from '../../styles/main.js';
-// import MoodPicker from './MoodPicker.js';
-import AbsoluteMoodSlider from './AbsoluteMoodSlider.js';
+import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 
 class NewEntryComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {factor: 1};
   }
+
+  onValue(value) {
+    this.setState(value);
+  }
+
   render() {
-    // this.setState({sw: 100});
+    console.log(this.props.navigation);
     return (
       <View style={Styles.content}>
         <Text>New Entry</Text>
-        <AbsoluteMoodSlider name="Anger"/>
-        <AbsoluteMoodSlider name="Disgust"/>
-        <AbsoluteMoodSlider name="Fear"/>
-        <AbsoluteMoodSlider name="Joy"/>
-        <AbsoluteMoodSlider name="Sadness"/>
-        <AbsoluteMoodSlider name="Surprise"/>
+        <AbsoluteMoodInput onValue={this.onValue.bind(this)}/>
         <Button
-          onPress={() => {this.props.newEntry("test",3)}}
-          title="State"
+          onPress={() => {
+            this.props.newEntry(this.state);
+            this.props.goBack();
+          }}
+          title="Submit"
         />
       </View>
     )

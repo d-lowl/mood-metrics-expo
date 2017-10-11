@@ -5,11 +5,10 @@ export const setState = n => {
   }
 }
 
-export const newEntry = (datetime,mood,value) => {
+export const newEntry = (datetime,mood) => {
   return {
     type: 'NEW_ENTRY',
     datetime,
-    mood,
-    value
+    mood
   }
 }

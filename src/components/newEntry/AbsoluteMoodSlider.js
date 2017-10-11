@@ -1,44 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import colorSchema from '../../styles/colorSchema.js';
-// import MoodPicker from './MoodPicker.js';
+import sliderStyles from '../../styles/sliders.js';
 import Slider from 'react-native-slider';
 
-class NewEntryComponent extends Component {
+class AbsoluteMoodSlider extends Component {
   constructor(props) {
     super(props);
   }
+
+  onValue(value) {
+    this.props.onValue(this.props.name, value);
+  }
+
   render() {
-    console.log(this.props.name.toLowerCase())
-    const schema = colorSchema[this.props.name.toLowerCase()] ||
-                   colorSchema.joy;
+    const schema = colorSchema[this.props.name.toLowerCase()] || colorSchema.joy;
     return (
-      <View style={style.view}>
-        <Text style={style.label}>{this.props.name}</Text>
+      <View style={sliderStyles.view}>
+        <Text style={sliderStyles.label}>{this.props.name}</Text>
         <Slider
-          style={style.slider}
+          style={sliderStyles.slider}
           minimumTrackTintColor={schema.left}
           maximumTrackTintColor={schema.right}
           thumbTintColor={schema.thumb}
           maximumValue={7}
-          step={1}/>
+          step={1}
+          onSlidingComplete={this.onValue.bind(this)}/>
       </View>
     )
   }
 }
 
-const style = StyleSheet.create({
-  view: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  label: {
-    flex: 0.3
-  },
-  slider: {
-    flex: 1
-  }
-})
-
-export default NewEntryComponent;
+export default AbsoluteMoodSlider;

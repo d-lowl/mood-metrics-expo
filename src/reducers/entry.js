@@ -4,8 +4,7 @@ export default entry_reducer = (state = {}, action) => {
     case 'NEW_ENTRY':
       return {
         datetime: action.datetime,
-        mood: action.mood,
-        value: action.value
+        mood: action.mood
       }
     default:
       return state;

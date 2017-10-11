@@ -5,8 +5,8 @@ import store from '../Store';
 import { setState, newEntry } from '../actions';
 
 
-function newEntryHandler(mood,value) {
-  store.dispatch(newEntry(null,mood ,value));
+function newEntryHandler(mood) {
+  store.dispatch(newEntry(null,mood));
 }
 
 class NewEntryContainer extends Component {
@@ -16,7 +16,9 @@ class NewEntryContainer extends Component {
 
   render() {
     return (
-      <NewEntryComponent newEntry={newEntryHandler}/>
+      <NewEntryComponent
+        newEntry={newEntryHandler}
+        goBack={this.props.navigation.goBack}/>
     );
   }
 }

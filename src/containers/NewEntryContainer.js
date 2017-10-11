@@ -4,21 +4,20 @@ import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
 import store from '../Store';
 import { setState, newEntry } from '../actions';
 
-
-function newEntryHandler(mood) {
-  store.dispatch(newEntry(null,mood));
-}
-
 class NewEntryContainer extends Component {
   static navigationOptions = {
     title: 'New Entry',
   }
 
+  newEntryHandler(mood) {
+    store.dispatch(newEntry(null,mood));
+    this.props.navigation.goBack();
+  }
+
   render() {
     return (
       <NewEntryComponent
-        newEntry={newEntryHandler}
-        goBack={this.props.navigation.goBack}/>
+        newEntry={this.newEntryHandler.bind(this)}/>
     );
   }
 }

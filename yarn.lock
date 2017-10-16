@@ -4162,11 +4162,25 @@ react-native-maps@0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.15.3.tgz#5d9e0a8e30ecc51dc755b7a3b9d6b6ed5e2dd08c"
 
+react-native-on-layout@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-on-layout/-/react-native-on-layout-2.0.2.tgz#158e91d6e2b8d0f1c2ba7caa692d98c430790501"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
   dependencies:
     dedent "^0.6.0"
+
+"react-native-slider@https://github.com/boilerroomtv/react-native-slider.git":
+  version "0.11.0"
+  resolved "https://github.com/boilerroomtv/react-native-slider.git#0404fe39e4201091572e1e7245568c3b4cb555eb"
+  dependencies:
+    prop-types "^15.5.6"
+
+react-native-snap-slider@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-snap-slider/-/react-native-snap-slider-0.2.1.tgz#619e6a710d7622ae2e53285aa31bede0b48714e3"
 
 react-native-svg@5.3.0:
   version "5.3.0"

@@ -1,0 +1,36 @@
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import colorSchema from '../../styles/colorSchema.js';
+import sliderStyles from '../../styles/sliders.js';
+import Slider from 'react-native-slider';
+
+class RelativeMoodSlider extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  onValue(value) {
+    this.props.onValue(this.props.name, value);
+  }
+
+  render() {
+    const schema = colorSchema[this.props.name.toLowerCase()] || colorSchema.joy;
+    return (
+      <View style={sliderStyles.view}>
+        <Text style={sliderStyles.label}>{this.props.name}</Text>
+        <Slider
+          style={sliderStyles.slider}
+          minimumTrackTintColor={schema.left}
+          maximumTrackTintColor={schema.right}
+          thumbTintColor={schema.thumb}
+          maximumValue={3}
+          minimumValue={-3}
+          value={0}
+          step={1}
+          onSlidingComplete={this.onValue.bind(this)}/>
+      </View>
+    )
+  }
+}
+
+export default RelativeMoodSlider;

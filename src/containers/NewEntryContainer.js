@@ -17,9 +17,12 @@ class NewEntryContainer extends Component {
   render() {
     return (
       <NewEntryComponent
+        mood={this.props.entry.mood}
         newEntry={this.newEntryHandler.bind(this)}/>
     );
   }
 }
 
-export default connect()(NewEntryContainer);
+const mapStateToProps = ({entry}) => ({entry})
+
+export default connect(mapStateToProps)(NewEntryContainer);

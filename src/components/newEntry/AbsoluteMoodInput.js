@@ -23,7 +23,7 @@ class AbsoluteMoodInput extends Component {
       state[mood.toLowerCase()] = value
       return state;
     }, () => {
-      console.log(this.state);
+      // console.log(this.state);
       this.props.onValue(this.state);
     })
   }

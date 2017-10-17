@@ -5,7 +5,7 @@ import Styles from '../styles/main.js';
 
 class ViewEntriesContainer extends Component {
   static navigationOptions = {
-    title: 'New Entry',
+    title: 'View Entries',
   }
 
   render() {

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Text } from 'react-native';
 import styles from '../../styles/main.js';
 import sliderStyles from '../../styles/sliders.js';
+import { capitalise } from '../../utils/StringHelper.js';
 import RelativeMoodSlider from './RelativeMoodSlider.js';
+import SliderHeader from './SliderHeader.js';
 
 class RelativeMoodInput extends Component {
   constructor(props) {
@@ -53,7 +55,7 @@ class RelativeMoodInput extends Component {
     sliders = [];
     for (var v in this.state.currentMood) {
       if(this.state.currentMood[v] !== 0)
-        sliders.push(<RelativeMoodSlider key={v} name={v} onValue={this.onValue.bind(this)}/>)
+        sliders.push(<RelativeMoodSlider key={v} name={capitalise(v)} onValue={this.onValue.bind(this)}/>)
     }
     return sliders;
   }
@@ -61,7 +63,9 @@ class RelativeMoodInput extends Component {
   render() {
     return (
       <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text>How did your mood change?</Text>
+          <SliderHeader labels={['-','=','+']}/>
           {this.getSliders()}
           <Button
             onPress={this.props.onStartOver}

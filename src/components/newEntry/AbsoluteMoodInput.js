@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from '../../styles/main.js';
 import sliderStyles from '../../styles/sliders.js';
 import AbsoluteMoodSlider from './AbsoluteMoodSlider.js';
+import SliderHeader from './SliderHeader.js';
 
 class AbsoluteMoodInput extends Component {
   constructor(props) {
@@ -31,7 +32,9 @@ class AbsoluteMoodInput extends Component {
   render() {
     return (
       <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text>What do you feel now?</Text>
+          <SliderHeader labels={[0,1,2,3,4,5,6,7]}/>
           <AbsoluteMoodSlider name="Anger" onValue={this.onValue.bind(this)}/>
           <AbsoluteMoodSlider name="Disgust" onValue={this.onValue.bind(this)}/>
           <AbsoluteMoodSlider name="Fear" onValue={this.onValue.bind(this)}/>

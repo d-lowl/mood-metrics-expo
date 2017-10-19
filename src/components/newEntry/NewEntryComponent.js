@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Picker } from 'react-native';
+import { View, Button, Picker } from 'react-native';
 import Styles from '../../styles/main.js';
 import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 import RelativeMoodInput from './RelativeMoodInput.js';
@@ -60,7 +60,6 @@ class NewEntryComponent extends Component {
   render() {
     return (
       <View style={Styles.content}>
-        <Text>New Entry</Text>
         {this.getInput()}
         <Button
           onPress={() => {

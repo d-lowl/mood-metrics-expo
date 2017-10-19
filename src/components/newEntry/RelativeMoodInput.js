@@ -44,7 +44,6 @@ class RelativeMoodInput extends Component {
       state.delta[mood.toLowerCase()] = value
       return state;
     }, () => {
-      // console.log(this.state);
       this.props.onValue(this.constructMood());
     })
   }

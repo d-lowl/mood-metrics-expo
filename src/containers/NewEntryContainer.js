@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
-import store from '../Store';
+import { store } from '../Store';
 import { setState, newEntry } from '../actions';
 
 class NewEntryContainer extends Component {

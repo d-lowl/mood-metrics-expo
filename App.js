@@ -1,13 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ApolloProvider } from 'react-apollo';
 
-import Store from './src/Store';
+import { store, apolloClient } from './src/Store';
 import BaseNavigation from './src/Router';
 
 const App = () => (
-  <Provider store={Store}>
+  <ApolloProvider store={store} client={apolloClient}>
     <BaseNavigation />
-  </Provider>
+  </ApolloProvider>
 );
 
 export default App;

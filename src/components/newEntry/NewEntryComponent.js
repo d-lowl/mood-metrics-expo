@@ -44,7 +44,7 @@ class NewEntryComponent extends Component {
   }
 
   getInput() {
-    console.log(this.state);
+    // console.log(this.state);
     if(isEmpty(this.state.currentMood)){
       return(<AbsoluteMoodInput
                onValue={this.onValue.bind(this)}/>)

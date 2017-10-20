@@ -28,12 +28,12 @@ class NewEntryContainer extends Component {
 const mapStateToProps = ({entry}) => ({entry})
 
 const newEntryMutation = gql`
-  mutation ($anger: Int!,
-            $disgust: Int!,
-            $fear: Int!,
-            $joy: Int!,
-            $sadness: Int!,
-            $surprise: Int!) {
+  mutation ($anger: Float!,
+            $disgust: Float!,
+            $fear: Float!,
+            $joy: Float!,
+            $sadness: Float!,
+            $surprise: Float!) {
     createMoodEntry(
       anger: $anger
       disgust: $disgust

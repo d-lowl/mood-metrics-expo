@@ -35,7 +35,15 @@ class RelativeMoodInput extends Component {
   constructMood() {
     var mood = {};
     for (var v in this.state.currentMood) {
-      mood[v] = this.state.currentMood[v] + this.state.delta[v];
+      var d = this.state.delta[v] * 0.25;
+      if(this.state.delta[v] > 0) {
+        d *= (7 - this.state.currentMood[v]);
+      }
+      else {
+        d *= this.state.currentMood[v];
+      }
+      mood[v] = this.state.currentMood[v] + d;
+      // console.log(mood[v] + ' < ' + this.state.currentMood[v] + ', ' + this.state.delta[v]);
     }
 
     return this.normaliseMood(mood);

@@ -9,7 +9,7 @@ class ViewEntriesContainer extends Component {
   }
 
   render() {
-    console.log(this.props.entry);
+    // console.log(this.props.entry);
     return (
       <View style={Styles.content}>
         <Text>Last Entry: {JSON.stringify(this.props.entry)}</Text>

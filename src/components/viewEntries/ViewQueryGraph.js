@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { getPallete } from '../../styles/colorSchema.js';
 import { StockLine } from 'react-native-pathjs-charts';
+import { queryMoodEntriesInRange } from '../../utils/GraphQL.js';
 
 class ViewQueryGraph extends Component {
 
@@ -24,8 +25,7 @@ class ViewQueryGraph extends Component {
       let date = this.getFloatHours(new Date(entries[v].createdAt));
       max = date < max ? max : date;
       min = date > min ? min : date;
-      // let time = date.getHours() + date.getMinutes()/60.0;
-      // console.log(time);
+
       data[0].push({
         "time": date,
         "value": entries[v].anger
@@ -52,7 +52,6 @@ class ViewQueryGraph extends Component {
       })
     }
 
-    console.log(max+" "+min);
     return {
       data,
       count: Math.ceil(max - min)
@@ -87,7 +86,6 @@ class ViewQueryGraph extends Component {
         tickValues: [],
         tickCount: dataSet.count,
         labelFunction: ((v) => {
-          console.log(v)
           let h = Math.floor(v);
           let m = Math.round((v - h) * 60)
           return ""+h+":"+m;
@@ -131,27 +129,4 @@ class ViewQueryGraph extends Component {
   }
 }
 
-const query = gql`
-  query moodEntriesInRange(
-    $from: DateTime!,
-    $to: DateTime!
-  ){
-    allMoodEntries (
-      filter: {
-        createdAt_gt: $from,
-        createdAt_lte: $to,
-      },
-      orderBy: createdAt_ASC
-    ) {
-      createdAt
-      anger
-      disgust
-      fear
-      joy
-      sadness
-      surprise
-    }
-  }
-`;
-
-export default graphql(query)(ViewQueryGraph);
+export default graphql(queryMoodEntriesInRange)(ViewQueryGraph);

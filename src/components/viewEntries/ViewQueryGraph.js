@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { graphql } from 'react-apollo';
 import { getPallete } from '../../styles/colorSchema.js';
 import { StockLine } from 'react-native-pathjs-charts';
@@ -12,8 +12,8 @@ class ViewQueryGraph extends Component {
   }
 
   makeDataSet() {
-    if(this.props.data.loading)
-      return [];
+    if(this.props.data.loading || this.props.data.allMoodEntries.length === 0)
+      return null;
 
     var data = [[],[],[],[],[],[]];
 
@@ -59,7 +59,19 @@ class ViewQueryGraph extends Component {
   }
 
   render() {
+    if(this.props.data.loading) {
+      return (
+        <Text>Loading...</Text>
+      )
+    }
+
     let dataSet = this.makeDataSet();
+
+    if(!dataSet) {
+      return(
+        <Text>Empty</Text>
+      )
+    }
 
     let options = {
       width: 160*dataSet.count,

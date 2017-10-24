@@ -6,7 +6,8 @@ export const newEntryMutation = gql`
             $fear: Float!,
             $joy: Float!,
             $sadness: Float!,
-            $surprise: Float!) {
+            $surprise: Float!,
+            $user: ID) {
     createMoodEntry(
       anger: $anger
       disgust: $disgust
@@ -14,6 +15,7 @@ export const newEntryMutation = gql`
       joy: $joy
       sadness: $sadness
       surprise: $surprise
+      userId: $user
     ) {
       id
     }
@@ -21,24 +23,35 @@ export const newEntryMutation = gql`
 `;
 
 export const queryMoodEntriesInRange = gql`
-  query moodEntriesInRange(
-    $from: DateTime!,
-    $to: DateTime!
-  ){
-    allMoodEntries (
-      filter: {
-        createdAt_gt: $from,
-        createdAt_lte: $to,
-      },
-      orderBy: createdAt_ASC
-    ) {
-      createdAt
-      anger
-      disgust
-      fear
-      joy
-      sadness
-      surprise
+  query (
+      $from: DateTime!,
+      $to: DateTime!,
+      $user: ID
+    ){
+    User(id: $user){
+      moodEntries(filter: {
+          createdAt_gt: $from,
+          createdAt_lte: $to,
+      }){
+        createdAt
+        anger
+        disgust
+        fear
+        joy
+        sadness
+        surprise
+      }
+    }
+  }
+`;
+
+export const authenticationMutation = gql`
+  mutation ($secret: String!){
+    authenticateAnonymousUser(
+      secret: $secret,
+    ){
+      id,
+      token
     }
   }
 `;

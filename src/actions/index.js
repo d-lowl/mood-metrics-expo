@@ -12,3 +12,10 @@ export const newEntry = (datetime,mood) => {
     mood
   }
 }
+
+export const onAuth = (id) => {
+  return {
+    type: 'ON_AUTH',
+    id
+  }
+}

@@ -15,7 +15,7 @@ class NewEntryContainer extends Component {
   newEntryHandler(mood) {
     store.dispatch(newEntry(null,mood));
     this.props.mutate({
-      variables: mood,
+      variables: { ...mood, user: this.props.auth.id },
       refetchQueries: [{
         query: queryMoodEntriesInRange,
         variables: {
@@ -36,6 +36,6 @@ class NewEntryContainer extends Component {
   }
 }
 
-const mapStateToProps = ({entry}) => ({entry})
+const mapStateToProps = ({ entry, auth }) => ({ entry, auth })
 
 export default connect(mapStateToProps)(graphql(newEntryMutation)(NewEntryContainer));

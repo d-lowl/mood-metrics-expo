@@ -3,6 +3,7 @@ import { View, Button, Picker } from 'react-native';
 import Styles from '../../styles/main.js';
 import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 import RelativeMoodInput from './RelativeMoodInput.js';
+import moment from 'moment';
 
 function isEmpty(obj) {
     return !obj || Object.keys(obj).length === 0;
@@ -44,8 +45,7 @@ class NewEntryComponent extends Component {
   }
 
   getInput() {
-    // console.log(this.state);
-    if(isEmpty(this.state.currentMood)){
+    if(isEmpty(this.state.currentMood) || !moment(this.props.datetime).isSame(moment(),'day')){
       return(<AbsoluteMoodInput
                onValue={this.onValue.bind(this)}/>)
     }

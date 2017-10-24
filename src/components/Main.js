@@ -6,9 +6,9 @@ import Styles from '../styles/main.js';
 import NewEntryContainer from '../containers/NewEntryContainer.js';
 import ViewEntriesContainer from '../containers/ViewEntriesContainer.js';
 import uuidv4 from 'uuid/v4';
-import { authenticationMutation } from '../utils/GraphQL.js';
+import { authenticationMutation, queryLastMoodEntry } from '../utils/GraphQL.js';
 import { store, apolloClient } from '../Store';
-import { onAuth } from '../actions';
+import { onAuth, newEntry } from '../actions';
 
 class Main extends Component {
   static navigationOptions = {
@@ -24,9 +24,31 @@ class Main extends Component {
         secret = uuidv4();
         await AsyncStorage.setItem("auth:secret",secret);
       }
+
       var mutation = await this.props.mutate({ variables: { secret } });
       await AsyncStorage.setItem("auth:token",mutation.data.authenticateAnonymousUser.token);
       apolloClient.resetStore();
+
+      var lastEntry = (await apolloClient.query({
+        query: queryLastMoodEntry,
+        variables: {
+          user: mutation.data.authenticateAnonymousUser.id
+        }
+      })).data.User.moodEntries;
+      if(lastEntry.length === 1){
+        store.dispatch(newEntry(
+          lastEntry[0].createdAt,
+          {
+            anger: lastEntry[0].anger,
+            disgust: lastEntry[0].disgust,
+            fear: lastEntry[0].fear,
+            joy: lastEntry[0].joy,
+            sadness: lastEntry[0].sadness,
+            surprise: lastEntry[0].surprise
+          }
+        ))
+      }
+
       store.dispatch(onAuth(mutation.data.authenticateAnonymousUser.id));
     }
     catch(err){

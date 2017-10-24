@@ -45,6 +45,24 @@ export const queryMoodEntriesInRange = gql`
   }
 `;
 
+export const queryLastMoodEntry = gql`
+  query (
+      $user: ID
+    ){
+    User(id: $user){
+      moodEntries(last: 1){
+        createdAt
+        anger
+        disgust
+        fear
+        joy
+        sadness
+        surprise
+      }
+    }
+  }
+`;
+
 export const authenticationMutation = gql`
   mutation ($secret: String!){
     authenticateAnonymousUser(

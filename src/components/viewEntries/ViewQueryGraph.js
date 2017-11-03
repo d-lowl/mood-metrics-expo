@@ -12,12 +12,12 @@ class ViewQueryGraph extends Component {
   }
 
   makeDataSet() {
-    if(this.props.data.loading || this.props.data.allMoodEntries.length === 0)
+    if(this.props.data.loading || this.props.data.User.moodEntries.length === 0)
       return null;
 
     var data = [[],[],[],[],[],[]];
 
-    var entries = this.props.data.allMoodEntries;
+    var entries = this.props.data.User.moodEntries;
 
     var max = NaN, min = NaN;
 
@@ -74,7 +74,7 @@ class ViewQueryGraph extends Component {
     }
 
     let options = {
-      width: 160*dataSet.count,
+      width: 100*dataSet.count,
       height: 250,
       color: '#000000',
       strokeWidth: 2,

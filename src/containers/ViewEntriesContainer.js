@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import Styles from '../styles/main.js';
 import ViewQueryGraph from '../components/viewEntries/ViewQueryGraph.js';
 import { getToday, getOneDayRange } from '../utils/DateTimeHelper.js';
@@ -42,13 +42,14 @@ class ViewEntriesContainer extends Component {
         </View>
         <ViewQueryGraph
           from={this.state.range.from.toISOString()}
-          to={this.state.range.to.toISOString()}/>
+          to={this.state.range.to.toISOString()}
+          user={this.props.auth.id}/>
       </View>
     );
   }
 }
 
-const mapStateToProps = ({entry}) => ({entry})
+const mapStateToProps = ({ entry, auth }) => ({ entry, auth })
 
 
 export default connect(mapStateToProps)(ViewEntriesContainer);

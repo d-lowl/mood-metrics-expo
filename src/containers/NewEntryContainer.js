@@ -13,14 +13,15 @@ class NewEntryContainer extends Component {
   }
 
   newEntryHandler(mood) {
-    store.dispatch(newEntry(null,mood));
+    store.dispatch(newEntry(moment().toISOString(),mood));
     this.props.mutate({
-      variables: mood,
+      variables: { ...mood, user: this.props.auth.id },
       refetchQueries: [{
         query: queryMoodEntriesInRange,
         variables: {
           from: moment(0,"HH").toISOString(),
-          to: moment(0,"HH").add(1,'days').toISOString()
+          to: moment(0,"HH").add(1,'days').toISOString(),
+          user: this.props.auth.id
         }
       }]
     });
@@ -30,12 +31,13 @@ class NewEntryContainer extends Component {
   render() {
     return (
       <NewEntryComponent
+        datetime={this.props.entry.datetime}
         mood={this.props.entry.mood}
         newEntry={this.newEntryHandler.bind(this)}/>
     );
   }
 }
 
-const mapStateToProps = ({entry}) => ({entry})
+const mapStateToProps = ({ entry, auth }) => ({ entry, auth })
 
 export default connect(mapStateToProps)(graphql(newEntryMutation)(NewEntryContainer));

@@ -83,6 +83,7 @@ class Main extends Component {
           onPress={() => {navigate('ViewEntriesContainer')}}
           title="View Entries"
         />
+        <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
       </View>
     );
   }

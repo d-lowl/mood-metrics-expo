@@ -12,7 +12,7 @@ import { authenticationMutation, queryLastMoodEntry } from '../utils/GraphQL.js'
 import { store, apolloClient } from '../Store';
 import { onAuth, newEntry } from '../actions';
 import getTheme from '../../native-base-theme/components';
-import material from '../../native-base-theme/variables/commonColor';
+import material from '../../native-base-theme/variables/material';
 
 class Main extends Component {
   static navigationOptions = {
@@ -77,7 +77,7 @@ class Main extends Component {
 
     const { navigate } = this.props.navigation;
     return (
-      <StyleProvider style={getTheme()}>
+      <StyleProvider style={getTheme(material)}>
         <Container style={Styles.content}>
           <FullScreenContent>
             <Button

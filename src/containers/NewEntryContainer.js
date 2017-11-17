@@ -18,10 +18,10 @@ class NewEntryContainer extends Component {
     this.state = {}
   }
 
-  newEntryHandler(mood) {
+  newEntryHandler(mood, inRelativeMode, withRelativeValue) {
     store.dispatch(newEntry(moment().toISOString(),mood));
     this.props.mutate({
-      variables: { ...mood, user: this.props.auth.id },
+      variables: { ...mood, user: this.props.auth.id, inRelativeMode, withRelativeValue},
       refetchQueries: [{
         query: queryMoodEntriesInRange,
         variables: {
@@ -34,17 +34,19 @@ class NewEntryContainer extends Component {
     this.props.navigation.goBack();
   }
 
+
+
   async componentDidMount() {
-    const isRelative = (await AsyncStorage.getItem('settings:is_relative') === "true" || false);
+    const inRelativeMode = (await AsyncStorage.getItem('settings:is_relative') === "true" || false);
     this.setState({
-      isRelative
+      inRelativeMode
     })
   }
 
   render() {
     return (
       <NewEntryComponent
-        isRelative={this.state.isRelative}
+        inRelativeMode={this.state.inRelativeMode}
         datetime={this.props.entry.datetime}
         mood={this.props.entry.mood}
         newEntry={this.newEntryHandler.bind(this)}/>

@@ -7,6 +7,8 @@ export const newEntryMutation = gql`
             $joy: Float!,
             $sadness: Float!,
             $surprise: Float!,
+            $inRelativeMode: Boolean,
+            $withRelativeValue: Boolean,
             $user: ID) {
     createMoodEntry(
       anger: $anger
@@ -16,6 +18,8 @@ export const newEntryMutation = gql`
       sadness: $sadness
       surprise: $surprise
       userId: $user
+      inRelativeMode: $inRelativeMode
+      withRelativeValue: $withRelativeValue
     ) {
       id
     }

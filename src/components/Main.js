@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Button, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
+import { Container, Content, Button, Text, StyleProvider } from 'native-base';
+import FullScreenContent from './common/FullScreenContent';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import Styles from '../styles/main.js';
@@ -9,6 +11,8 @@ import uuidv4 from 'uuid/v4';
 import { authenticationMutation, queryLastMoodEntry } from '../utils/GraphQL.js';
 import { store, apolloClient } from '../Store';
 import { onAuth, newEntry } from '../actions';
+import getTheme from '../../native-base-theme/components';
+import material from '../../native-base-theme/variables/commonColor';
 
 class Main extends Component {
   static navigationOptions = {
@@ -73,22 +77,25 @@ class Main extends Component {
 
     const { navigate } = this.props.navigation;
     return (
-      <View style={Styles.content}>
-        <Text>Welcome!</Text>
-        <Button
-          onPress={() => {navigate('NewEntryContainer')}}
-          title="Make New Entry"
-        />
-        <Button
-          onPress={() => {navigate('ViewEntriesContainer')}}
-          title="View Entries"
-        />
-        <Button
-          onPress={() => {navigate('SettingsContainer')}}
-          title="Settings"
-        />
-        <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
-      </View>
+      <StyleProvider style={getTheme()}>
+        <Container style={Styles.content}>
+          <FullScreenContent>
+            <Button
+              onPress={() => {navigate('NewEntryContainer')}}>
+                <Text>Make New Entry</Text>
+            </Button>
+            <Button
+              onPress={() => {navigate('ViewEntriesContainer')}}>
+                <Text>View Entries</Text>
+            </Button>
+            <Button
+              onPress={() => {navigate('SettingsContainer')}}>
+                <Text>Settings</Text>
+            </Button>
+            <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
+          </FullScreenContent>
+        </Container>
+      </StyleProvider>
     );
   }
 }

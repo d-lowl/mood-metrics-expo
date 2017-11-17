@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Picker } from 'react-native';
+import { View, Button, Text } from 'react-native';
 import Styles from '../../styles/main.js';
 import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 import RelativeMoodInput from './RelativeMoodInput.js';
@@ -45,7 +45,7 @@ class NewEntryComponent extends Component {
   }
 
   getInput() {
-    if(isEmpty(this.state.currentMood) || !moment(this.props.datetime).isSame(moment(),'day')){
+    if(!this.props.isRelative || isEmpty(this.state.currentMood) || !moment(this.props.datetime).isSame(moment(),'day')){
       return(<AbsoluteMoodInput
                onValue={this.onValue.bind(this)}/>)
     }
@@ -58,6 +58,9 @@ class NewEntryComponent extends Component {
   }
 
   render() {
+    if(this.props.isRelative === undefined){
+      return <Text>Loading...</Text>
+    }
     return (
       <View style={Styles.content}>
         {this.getInput()}

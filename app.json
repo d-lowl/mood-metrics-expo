@@ -5,7 +5,7 @@
     "slug": "mood-metrics-expo",
     "privacy": "public",
     "sdkVersion": "21.0.0",
-    "version": "0.1 b21",
+    "version": "0.1 b41",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/app-icon.png",
@@ -13,7 +13,10 @@
       "icon": "./assets/icons/loading-icon.png"
     },
     "packagerOpts": {
-      "assetExts": ["ttf", "mp4"]
+      "assetExts": [
+        "ttf",
+        "mp4"
+      ]
     },
     "ios": {
       "supportsTablet": true

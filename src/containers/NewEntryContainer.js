@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo';
 import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
@@ -10,6 +11,11 @@ import moment from 'moment';
 class NewEntryContainer extends Component {
   static navigationOptions = {
     title: 'New Entry',
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {}
   }
 
   newEntryHandler(mood) {
@@ -28,9 +34,17 @@ class NewEntryContainer extends Component {
     this.props.navigation.goBack();
   }
 
+  async componentDidMount() {
+    const isRelative = (await AsyncStorage.getItem('settings:is_relative') === "true" || false);
+    this.setState({
+      isRelative
+    })
+  }
+
   render() {
     return (
       <NewEntryComponent
+        isRelative={this.state.isRelative}
         datetime={this.props.entry.datetime}
         mood={this.props.entry.mood}
         newEntry={this.newEntryHandler.bind(this)}/>

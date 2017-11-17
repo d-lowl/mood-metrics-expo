@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Container, Content, Button, Text, StyleProvider } from 'native-base';
+
 import FullScreenContent from './common/FullScreenContent';
+import LoadingSpinner from './common/LoadingSpinner';
+
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import Styles from '../styles/main.js';
@@ -16,7 +19,7 @@ import material from '../../native-base-theme/variables/material';
 
 class Main extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Mood Tracker',
   }
 
   async tryAuthentication() {
@@ -66,32 +69,40 @@ class Main extends Component {
     }
   }
 
-  render() {
+  getContent() {
     if(!this.props.auth.id) {
       return(
-        <View style={Styles.content}>
+        <LoadingSpinner>
           <Text>Authenticating. Please wait.</Text>
+        </LoadingSpinner>
+      )
+    } else {
+      const { navigate } = this.props.navigation;
+      return(
+        <View>
+          <Button
+            onPress={() => {navigate('NewEntryContainer')}}>
+              <Text>Make New Entry</Text>
+          </Button>
+          <Button
+            onPress={() => {navigate('ViewEntriesContainer')}}>
+              <Text>View Entries</Text>
+          </Button>
+          <Button
+            onPress={() => {navigate('SettingsContainer')}}>
+              <Text>Settings</Text>
+          </Button>
         </View>
       )
     }
+  }
 
-    const { navigate } = this.props.navigation;
+  render() {
     return (
       <StyleProvider style={getTheme(material)}>
         <Container style={Styles.content}>
           <FullScreenContent>
-            <Button
-              onPress={() => {navigate('NewEntryContainer')}}>
-                <Text>Make New Entry</Text>
-            </Button>
-            <Button
-              onPress={() => {navigate('ViewEntriesContainer')}}>
-                <Text>View Entries</Text>
-            </Button>
-            <Button
-              onPress={() => {navigate('SettingsContainer')}}>
-                <Text>Settings</Text>
-            </Button>
+            {this.getContent()}
             <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
           </FullScreenContent>
         </Container>

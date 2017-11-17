@@ -44,8 +44,12 @@ class NewEntryComponent extends Component {
     });
   }
 
+  isWithRelativeValue() {
+    return this.props.inRelativeMode && !isEmpty(this.state.currentMood) && moment(this.props.datetime).isSame(moment(),'day');
+  }
+
   getInput() {
-    if(!this.props.isRelative || isEmpty(this.state.currentMood) || !moment(this.props.datetime).isSame(moment(),'day')){
+    if(!(this.isWithRelativeValue())){
       return(<AbsoluteMoodInput
                onValue={this.onValue.bind(this)}/>)
     }
@@ -58,7 +62,7 @@ class NewEntryComponent extends Component {
   }
 
   render() {
-    if(this.props.isRelative === undefined){
+    if(this.props.inRelativeMode === undefined){
       return <Text>Loading...</Text>
     }
     return (
@@ -66,7 +70,7 @@ class NewEntryComponent extends Component {
         {this.getInput()}
         <Button
           onPress={() => {
-            this.props.newEntry(this.state.mood);
+            this.props.newEntry(this.state.mood,this.props.inRelativeMode,this.isWithRelativeValue());
           }}
           title="Submit"
         />

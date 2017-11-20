@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button, Text } from 'native-base';
 import Styles from '../../styles/main.js';
+import LoadingSpinner from '../common/LoadingSpinner';
 import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 import RelativeMoodInput from './RelativeMoodInput.js';
 import { Grid, Col, Row } from 'react-native-easy-grid';
@@ -94,7 +95,7 @@ class NewEntryComponent extends Component {
 
   render() {
     if(this.props.inRelativeMode === undefined){
-      return <Text>Loading...</Text>
+      return <LoadingSpinner><Text>Loading...</Text></LoadingSpinner>
     }
     return (
       <View style={localStyle().top}>

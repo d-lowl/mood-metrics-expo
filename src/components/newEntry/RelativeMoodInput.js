@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text, Button } from 'native-base';
 import styles from '../../styles/main.js';
 import sliderStyles from '../../styles/sliders.js';
 import { capitalise } from '../../utils/StringHelper.js';
@@ -74,10 +75,6 @@ class RelativeMoodInput extends Component {
           <Text>How did your mood change?</Text>
           <SliderHeader labels={['-','=','+']}/>
           {this.getSliders()}
-          <Button
-            onPress={this.props.onStartOver}
-            title="Start over"
-          />
         </View>
       </View>
     )

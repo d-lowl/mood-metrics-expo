@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AsyncStorage, Dimensions } from 'react-native';
-import { CheckBox, Body, Text, Container, Header, Content, ListItem } from 'native-base';
+import { CheckBox, Text, Content, ListItem } from 'native-base';
 import StyledContainer from '../components/common/StyledContainer';
 
 const localStyle = () => {
@@ -47,7 +47,7 @@ class SettingsContainer extends Component {
     const isRelative = this.state.isRelative;
     return (
       <StyledContainer>
-        <Content  style={localStyle().content}>
+        <Content scrollEnabled={false} style={localStyle().content}>
           <ListItem style={localStyle().listItem}>
             <Text>Relative Input Mode</Text>
             <CheckBox

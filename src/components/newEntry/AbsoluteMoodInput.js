@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text } from 'native-base';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import styles from '../../styles/main.js';
 import sliderStyles from '../../styles/sliders.js';
 import AbsoluteMoodSlider from './AbsoluteMoodSlider.js';
 import SliderHeader from './SliderHeader.js';
+
+const localStyle = () => {
+  const style = {
+    top: {
+    },
+  }
+
+  return style;
+}
 
 class AbsoluteMoodInput extends Component {
   constructor(props) {
@@ -31,7 +41,7 @@ class AbsoluteMoodInput extends Component {
 
   render() {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={[{flexDirection: 'row'},localStyle().top]}>
         <View style={{flex: 1, alignItems: 'center'}}>
           <Text>What do you feel now?</Text>
           <SliderHeader labels={[0,1,2,3,4,5,6,7]}/>

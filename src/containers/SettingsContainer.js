@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import { CheckBox, Body, Text, Container, Header, Content, ListItem } from 'native-base';
+import { AsyncStorage, Dimensions } from 'react-native';
+import { CheckBox, Text, Content, ListItem } from 'native-base';
+import StyledContainer from '../components/common/StyledContainer';
+
+const localStyle = () => {
+  const {width: screenWidth} = Dimensions.get('window');
+  const style = {
+    content: {
+      width: screenWidth
+    },
+    listItem: {
+      justifyContent: 'space-between',
+      marginLeft: 0,
+      paddingLeft: 10
+    }
+  }
+
+
+  return style;
+}
 
 class SettingsContainer extends Component {
   static navigationOptions = {
@@ -20,7 +38,6 @@ class SettingsContainer extends Component {
   }
 
   toggleRelativeMode() {
-    // console.log(val);x
     const isRelative = !(this.state.isRelative);
     AsyncStorage.setItem('settings:is_relative',isRelative.toString());
     this.setState({isRelative});
@@ -29,19 +46,17 @@ class SettingsContainer extends Component {
   render() {
     const isRelative = this.state.isRelative;
     return (
-      <Container>
-        <Content>
-          <ListItem>
+      <StyledContainer>
+        <Content scrollEnabled={false} style={localStyle().content}>
+          <ListItem style={localStyle().listItem}>
+            <Text>Relative Input Mode</Text>
             <CheckBox
               checked={isRelative}
               onPress={this.toggleRelativeMode.bind(this)}
             />
-            <Body>
-              <Text>Relative Input Mode</Text>
-            </Body>
           </ListItem>
         </Content>
-      </Container>
+      </StyledContainer>
     );
   }
 }

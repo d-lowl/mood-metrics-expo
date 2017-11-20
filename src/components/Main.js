@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, Button, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
+import { Container, Content, Button, Text, StyleProvider } from 'native-base';
+
+import FullScreenContent from './common/FullScreenContent';
+import LoadingSpinner from './common/LoadingSpinner';
+import StyledContainer from './common/StyledContainer';
+
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
-import Styles from '../styles/main.js';
 import NewEntryContainer from '../containers/NewEntryContainer.js';
 import ViewEntriesContainer from '../containers/ViewEntriesContainer.js';
 import uuidv4 from 'uuid/v4';
@@ -12,7 +17,7 @@ import { onAuth, newEntry } from '../actions';
 
 class Main extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Mood Tracker',
   }
 
   async tryAuthentication() {
@@ -62,33 +67,42 @@ class Main extends Component {
     }
   }
 
-  render() {
+  getContent() {
     if(!this.props.auth.id) {
       return(
-        <View style={Styles.content}>
+        <LoadingSpinner>
           <Text>Authenticating. Please wait.</Text>
+        </LoadingSpinner>
+      )
+    } else {
+      const { navigate } = this.props.navigation;
+      return(
+        <View>
+          <Button
+            onPress={() => {navigate('NewEntryContainer')}}>
+              <Text>Make New Entry</Text>
+          </Button>
+          <Button
+            onPress={() => {navigate('ViewEntriesContainer')}}>
+              <Text>View Entries</Text>
+          </Button>
+          <Button
+            onPress={() => {navigate('SettingsContainer')}}>
+              <Text>Settings</Text>
+          </Button>
         </View>
       )
     }
+  }
 
-    const { navigate } = this.props.navigation;
+  render() {
     return (
-      <View style={Styles.content}>
-        <Text>Welcome!</Text>
-        <Button
-          onPress={() => {navigate('NewEntryContainer')}}
-          title="Make New Entry"
-        />
-        <Button
-          onPress={() => {navigate('ViewEntriesContainer')}}
-          title="View Entries"
-        />
-        <Button
-          onPress={() => {navigate('SettingsContainer')}}
-          title="Settings"
-        />
-        <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
-      </View>
+      <StyledContainer>
+        <FullScreenContent>
+          {this.getContent()}
+          <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
+        </FullScreenContent>
+      </StyledContainer>
     );
   }
 }

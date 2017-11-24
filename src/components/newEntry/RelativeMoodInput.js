@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text, Button } from 'native-base';
 import styles from '../../styles/main.js';
 import sliderStyles from '../../styles/sliders.js';
 import { capitalise } from '../../utils/StringHelper.js';
@@ -34,8 +35,12 @@ class RelativeMoodInput extends Component {
 
   constructMood() {
     var mood = {};
+
+    const ks = [0, 0.1, 0.35, 0.9];
+
     for (var v in this.state.currentMood) {
-      var d = this.state.delta[v] * 0.25;
+
+      var d = ks[Math.abs(this.state.delta[v])] * Math.sign(this.state.delta[v]);
       if(this.state.delta[v] > 0) {
         d *= (7 - this.state.currentMood[v]);
       }
@@ -74,10 +79,6 @@ class RelativeMoodInput extends Component {
           <Text>How did your mood change?</Text>
           <SliderHeader labels={['-','=','+']}/>
           {this.getSliders()}
-          <Button
-            onPress={this.props.onStartOver}
-            title="Start over"
-          />
         </View>
       </View>
     )

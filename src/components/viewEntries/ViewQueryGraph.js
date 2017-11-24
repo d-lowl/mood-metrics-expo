@@ -11,6 +11,10 @@ class ViewQueryGraph extends Component {
     return datetime.getHours() + datetime.getMinutes() / 60.0;
   }
 
+  meaningfulDistance(mean, minDelta, duration) {
+    return (minDelta < 0.1 ? 0.1 : minDelta);
+  }
+
   makeDataSet() {
     if(this.props.data.loading || this.props.data.User.moodEntries.length === 0)
       return null;
@@ -20,11 +24,14 @@ class ViewQueryGraph extends Component {
     var entries = this.props.data.User.moodEntries;
 
     var max = NaN, min = NaN;
-
+    var previous = NaN, minDelta = NaN;
     for (var v in entries) {
       let date = this.getFloatHours(new Date(entries[v].createdAt));
+      let delta = date - previous;
+      minDelta = delta > minDelta ? minDelta : delta;
       max = date < max ? max : date;
       min = date > min ? min : date;
+      previous = date;
 
       data[0].push({
         "time": date,
@@ -54,7 +61,9 @@ class ViewQueryGraph extends Component {
 
     return {
       data,
-      count: Math.ceil(max - min)
+      count: Math.ceil(max - min),
+      mean: (max - min) / (entries.length - 1),
+      minDelta
     };
   }
 
@@ -73,8 +82,11 @@ class ViewQueryGraph extends Component {
       )
     }
 
+    let md = this.meaningfulDistance(dataSet.mean, dataSet.minDelta, dataSet.count)
+    console.log(md);
+
     let options = {
-      width: 100*dataSet.count,
+      width:25*dataSet.count/md,
       height: 250,
       color: '#000000',
       strokeWidth: 2,
@@ -96,11 +108,11 @@ class ViewQueryGraph extends Component {
         zeroAxis: false,
         orient: 'bottom',
         tickValues: [],
-        tickCount: dataSet.count,
+        tickCount: Math.ceil(0.5*dataSet.count/md),
         labelFunction: ((v) => {
           let h = Math.floor(v);
           let m = Math.round((v - h) * 60)
-          return ""+h+":"+m;
+          return ""+h+(m > 10 ? ":" : ":0")+m;
         }),
         label: {
           fontFamily: 'Arial',

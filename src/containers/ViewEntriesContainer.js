@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
+import { Text, Button, Content } from 'native-base';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import Styles from '../styles/main.js';
 import ViewQueryGraph from '../components/viewEntries/ViewQueryGraph.js';
+import StyledContainer from '../components/common/StyledContainer';
 import { getToday, getOneDayRange } from '../utils/DateTimeHelper.js';
+
+const localStyle = () => {
+  const style = {
+    navigator: {
+      // backgroundColor: 'lime',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    navigationButtons: {
+      // backgroundColor: 'lime',
+      marginHorizontal: 10
+    }
+  }
+
+  return style;
+}
 
 class ViewEntriesContainer extends Component {
   static navigationOptions = {
@@ -32,19 +51,25 @@ class ViewEntriesContainer extends Component {
 
   render() {
     return (
-      <View style={Styles.content}>
-        <View style={{flexDirection: 'row',
-                      flex: 0.2,
-                      justifyContent: 'center'}}>
-          <Button onPress={this.oneDayBack.bind(this)} title="<"/>
-          <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
-          <Button onPress={this.oneDayForward.bind(this)} title=">"/>
-        </View>
-        <ViewQueryGraph
-          from={this.state.range.from.toISOString()}
-          to={this.state.range.to.toISOString()}
-          user={this.props.auth.id}/>
-      </View>
+      <StyledContainer>
+        <Content>
+          <View style={localStyle().navigator}>
+            <Button style={localStyle().navigationButtons}
+              onPress={this.oneDayBack.bind(this)} small transparent bordered>
+                <Text>{"<"}</Text>
+            </Button>
+            <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
+            <Button style={localStyle().navigationButtons}
+              onPress={this.oneDayForward.bind(this)} small transparent bordered>
+                <Text>{">"}</Text>
+            </Button>
+          </View>
+          <ViewQueryGraph
+            from={this.state.range.from.toISOString()}
+            to={this.state.range.to.toISOString()}
+            user={this.props.auth.id}/>
+        </Content>
+      </StyledContainer>
     );
   }
 }

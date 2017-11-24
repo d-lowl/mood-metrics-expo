@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux'
 import { graphql } from 'react-apollo';
+import StyledContainer from '../components/common/StyledContainer';
+import FullScreenContent from '../components/common/FullScreenContent';
 import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
 import { store } from '../Store';
 import { setState, newEntry } from '../actions';
@@ -45,11 +47,15 @@ class NewEntryContainer extends Component {
 
   render() {
     return (
-      <NewEntryComponent
-        inRelativeMode={this.state.inRelativeMode}
-        datetime={this.props.entry.datetime}
-        mood={this.props.entry.mood}
-        newEntry={this.newEntryHandler.bind(this)}/>
+      <StyledContainer>
+        <FullScreenContent fullWidth>
+          <NewEntryComponent
+            inRelativeMode={this.state.inRelativeMode}
+            datetime={this.props.entry.datetime}
+            mood={this.props.entry.mood}
+            newEntry={this.newEntryHandler.bind(this)}/>
+        </FullScreenContent>
+      </StyledContainer>
     );
   }
 }

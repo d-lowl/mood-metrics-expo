@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text } from 'native-base';
 import colorSchema from '../../styles/colorSchema.js';
 import sliderStyles from '../../styles/sliders.js';
 import Slider from 'react-native-slider';

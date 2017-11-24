@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View } from 'react-native';
+import { Button, Text } from 'native-base';
 import Styles from '../../styles/main.js';
+import LoadingSpinner from '../common/LoadingSpinner';
 import AbsoluteMoodInput from './AbsoluteMoodInput.js';
 import RelativeMoodInput from './RelativeMoodInput.js';
+import { Grid, Col, Row } from 'react-native-easy-grid';
 import moment from 'moment';
 
 function isEmpty(obj) {
     return !obj || Object.keys(obj).length === 0;
+}
+
+const localStyle = () => {
+  const style = {
+    top: {
+      alignSelf: 'stretch'
+    },
+    sliderRow: {
+      justifyContent: 'center',
+      paddingHorizontal: 10
+    },
+    button: {
+      alignSelf: 'center'
+    }
+  }
+
+  return style;
 }
 
 class NewEntryComponent extends Component {
@@ -56,24 +76,41 @@ class NewEntryComponent extends Component {
     else {
       return(<RelativeMoodInput
                mood={this.state.currentMood}
-               onValue={this.onValue.bind(this)}
-               onStartOver={this.onStartOver.bind(this)}/>)
+               onValue={this.onValue.bind(this)}  />)
+    }
+  }
+
+  getRelativeControls() {
+    if(this.isWithRelativeValue()) {
+      return (
+        <Button bordered danger
+          style={localStyle().button}
+          onPress={this.onStartOver.bind(this)}
+        >
+          <Text>Start Over</Text>
+        </Button>
+      )
     }
   }
 
   render() {
     if(this.props.inRelativeMode === undefined){
-      return <Text>Loading...</Text>
+      return <LoadingSpinner><Text>Loading...</Text></LoadingSpinner>
     }
     return (
-      <View style={Styles.content}>
-        {this.getInput()}
-        <Button
+      <View style={localStyle().top}>
+        <View style={localStyle().sliderRow}>
+          {this.getInput()}
+        </View>
+        <Button success
           onPress={() => {
             this.props.newEntry(this.state.mood,this.props.inRelativeMode,this.isWithRelativeValue());
           }}
-          title="Submit"
-        />
+          style={localStyle().button}
+        >
+          <Text>Submit</Text>
+        </Button>
+        {this.getRelativeControls()}
       </View>
     )
   }

@@ -78,15 +78,15 @@ class Main extends Component {
       const { navigate } = this.props.navigation;
       return(
         <View>
-          <Button
+          <Button fixedWidth
             onPress={() => {navigate('NewEntryContainer')}}>
               <Text>Make New Entry</Text>
           </Button>
-          <Button
+          <Button fixedWidth
             onPress={() => {navigate('ViewEntriesContainer')}}>
               <Text>View Entries</Text>
           </Button>
-          <Button
+          <Button fixedWidth
             onPress={() => {navigate('SettingsContainer')}}>
               <Text>Settings</Text>
           </Button>

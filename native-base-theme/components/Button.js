@@ -458,9 +458,11 @@ export default (variables = variable) => {
         },
       },
     },
+    '.fixedWidth': {
+      minWidth: 160,
+    },
 
     marginVertical: 10,
-    minWidth: 160,
     paddingVertical: variables.buttonPadding,
     // paddingHorizontal: variables.buttonPadding,
     backgroundColor: variables.btnPrimaryBg,

@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading spinner renders correctly 1`] = `
+<View>
+  <ActivityIndicator
+    animating={true}
+    color="#45D56E"
+    hidesWhenStopped={true}
+    size="large"
+    style={
+      Object {
+        "height": 80,
+      }
+    }
+    virtual={undefined}
+  />
+</View>
+`;
+
+exports[`Loading spinner with text renders correctly 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    disabled={false}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#000",
+        "fontFamily": "System",
+        "fontSize": 16,
+      }
+    }
+    uppercase={false}
+    virtual={undefined}
+  >
+    Some text
+  </Text>
+  <ActivityIndicator
+    animating={true}
+    color="#45D56E"
+    hidesWhenStopped={true}
+    size="large"
+    style={
+      Object {
+        "height": 80,
+      }
+    }
+    virtual={undefined}
+  />
+</View>
+`;

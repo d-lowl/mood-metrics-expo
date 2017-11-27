@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation';
+import { Platform } from 'react-native';
 
 import Main from './components/Main';
 import NewEntryContainer from './containers/NewEntryContainer';
@@ -10,6 +11,8 @@ const BaseNavigation = StackNavigator({
   NewEntryContainer: {screen: NewEntryContainer},
   ViewEntriesContainer: {screen: ViewEntriesContainer},
   SettingsContainer: {screen: SettingsContainer}
+}, {
+  navigationOptions: { headerStyle: { marginTop: (Platform.OS === 'ios') ? 0 : Expo.Constants.statusBarHeight } }
 });
 
 export default BaseNavigation;

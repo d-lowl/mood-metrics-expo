@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Text, Button, Content } from 'native-base';
+import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
 import Styles from '../styles/main.js';
 import ViewQueryGraph from '../components/viewEntries/ViewQueryGraph.js';
 import StyledContainer from '../components/common/StyledContainer';
-import { getToday, getOneDayRange } from '../utils/DateTimeHelper.js';
+import { getToday, getOneDayRange, getRangeFromDate } from '../utils/DateTimeHelper.js';
 
 const localStyle = () => {
   const style = {
@@ -33,6 +34,7 @@ class ViewEntriesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isCalendar: false,
       range: getOneDayRange(getToday())
     };
   }
@@ -49,19 +51,30 @@ class ViewEntriesContainer extends Component {
     })
   }
 
+  getCalendar() {
+    if(this.state.isCalendar)
+      return (
+        <CalendarPicker
+          startFromMonday={true}
+          allowRangeSelection={false}
+          onDateChange={(date, type) => {
+            console.log("DATE: "+date);
+            console.log("TYPE: "+type);
+            this.setState({range: getRangeFromDate(date)});
+          }}
+        />
+      );
+  }
+
   render() {
     return (
       <StyledContainer>
         <Content>
+          {this.getCalendar()}
           <View style={localStyle().navigator}>
-            <Button style={localStyle().navigationButtons}
-              onPress={this.oneDayBack.bind(this)} small transparent bordered>
-                <Text>{"<"}</Text>
-            </Button>
-            <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
-            <Button style={localStyle().navigationButtons}
-              onPress={this.oneDayForward.bind(this)} small transparent bordered>
-                <Text>{">"}</Text>
+            <Button small
+              onPress={() => {this.setState({isCalendar: !this.state.isCalendar})}}>
+              <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
             </Button>
           </View>
           <ViewQueryGraph

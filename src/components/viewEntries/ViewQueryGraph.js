@@ -1,70 +1,40 @@
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, Dimensions } from 'react-native';
 import { graphql } from 'react-apollo';
 import { getPallete } from '../../styles/colorSchema.js';
 import { StockLine } from 'react-native-pathjs-charts';
 import { queryMoodEntriesInRange } from '../../utils/GraphQL.js';
+import { prepareDataSet } from '../../utils/DataSetHelper.js';
+
+const MIN_RESOLUTION = 5.0/60.0// 5 minutes
+const UNIT_WIDTH = 25.0;
+const MINIMUM_WIDTH_RATE = 0.8;
 
 class ViewQueryGraph extends Component {
 
-  getFloatHours(datetime) {
-    return datetime.getHours() + datetime.getMinutes() / 60.0;
+  getMinimumWidth() {
+    const {width: screenWidth} = Dimensions.get('window');
+    return screenWidth * MINIMUM_WIDTH_RATE;
   }
 
-  meaningfulDistance(mean, minDelta, duration) {
-    return (minDelta < 0.1 ? 0.1 : minDelta);
+  getWidth(duration, resolution) {
+    var width = UNIT_WIDTH*duration/resolution;
+    return (width > this.getMinimumWidth() ? width : this.getMinimumWidth());
+  }
+
+  getResolution(minDelta, duration) {
+    var resolution = minDelta < MIN_RESOLUTION ? MIN_RESOLUTION : minDelta;
+    // if(this.getWidth(duration, resolution) < this.getMinimumWidth()) {
+    //   return (UNIT_WIDTH * duration) / this.getMinimumWidth();
+    // }
+    return resolution;
   }
 
   makeDataSet() {
     if(this.props.data.loading || this.props.data.User.moodEntries.length === 0)
       return null;
 
-    var data = [[],[],[],[],[],[]];
-
-    var entries = this.props.data.User.moodEntries;
-
-    var max = NaN, min = NaN;
-    var previous = NaN, minDelta = NaN;
-    for (var v in entries) {
-      let date = this.getFloatHours(new Date(entries[v].createdAt));
-      let delta = date - previous;
-      minDelta = delta > minDelta ? minDelta : delta;
-      max = date < max ? max : date;
-      min = date > min ? min : date;
-      previous = date;
-
-      data[0].push({
-        "time": date,
-        "value": entries[v].anger
-      })
-      data[1].push({
-        "time": date,
-        "value": entries[v].disgust
-      })
-      data[2].push({
-        "time": date,
-        "value": entries[v].fear
-      })
-      data[3].push({
-        "time": date,
-        "value": entries[v].joy
-      })
-      data[4].push({
-        "time": date,
-        "value": entries[v].sadness
-      })
-      data[5].push({
-        "time": date,
-        "value": entries[v].surprise
-      })
-    }
-
-    return {
-      data,
-      count: Math.ceil(max - min),
-      mean: (max - min) / (entries.length - 1),
-      minDelta
-    };
+    return prepareDataSet(this.props.data.User.moodEntries);
   }
 
   render() {
@@ -82,17 +52,16 @@ class ViewQueryGraph extends Component {
       )
     }
 
-    let md = this.meaningfulDistance(dataSet.mean, dataSet.minDelta, dataSet.count)
-    console.log(md);
+    let md = this.getResolution(dataSet.minDelta, dataSet.count)
 
     let options = {
-      width:25*dataSet.count/md,
+      width: this.getWidth(dataSet.cound,md),
       height: 250,
       color: '#000000',
       strokeWidth: 2,
       margin: {
         top: 10,
-        left: 35,
+        left: 10,
         bottom: 30,
         right: 10
       },
@@ -108,7 +77,7 @@ class ViewQueryGraph extends Component {
         zeroAxis: false,
         orient: 'bottom',
         tickValues: [],
-        tickCount: Math.ceil(0.5*dataSet.count/md),
+        tickCount: Math.ceil(1.0*dataSet.count/md),
         labelFunction: ((v) => {
           let h = Math.floor(v);
           let m = Math.round((v - h) * 60)

@@ -51,7 +51,7 @@ class ViewEntriesContainer extends Component {
     })
   }
 
-  getCalendar() {
+  getComponents() {
     if(this.state.isCalendar)
       return (
         <CalendarPicker
@@ -64,23 +64,26 @@ class ViewEntriesContainer extends Component {
           }}
         />
       );
+    else
+      return(
+        <ViewQueryGraph
+          from={this.state.range.from.toISOString()}
+          to={this.state.range.to.toISOString()}
+          user={this.props.auth.id}/>
+      );
   }
 
   render() {
     return (
       <StyledContainer>
         <Content>
-          {this.getCalendar()}
           <View style={localStyle().navigator}>
             <Button small
               onPress={() => {this.setState({isCalendar: !this.state.isCalendar})}}>
               <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
             </Button>
           </View>
-          <ViewQueryGraph
-            from={this.state.range.from.toISOString()}
-            to={this.state.range.to.toISOString()}
-            user={this.props.auth.id}/>
+          {this.getComponents()}
         </Content>
       </StyledContainer>
     );

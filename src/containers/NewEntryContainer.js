@@ -8,6 +8,7 @@ import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
 import { store } from '../Store';
 import { setState, newEntry } from '../actions';
 import { newEntryMutation, queryMoodEntriesInRange } from '../utils/GraphQL.js';
+import { submitAnalytics, getSubmitEntryPayload, analyticsTypes } from '../utils/AnalyticsHelper.js';
 import moment from 'moment';
 
 class NewEntryContainer extends Component {
@@ -33,6 +34,7 @@ class NewEntryContainer extends Component {
         }
       }]
     });
+    submitAnalytics(analyticsTypes.SUBMIT_ENTRY,getSubmitEntryPayload(inRelativeMode,withRelativeValue))
     this.props.navigation.goBack();
   }
 

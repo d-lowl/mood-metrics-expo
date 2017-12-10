@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "mood-metrics-expo",
-    "description": "An empty new project",
+    "name": "Mood Tracker",
+    "description": "Mood Tracker",
     "slug": "mood-metrics-expo",
     "privacy": "public",
     "sdkVersion": "21.0.0",
-    "version": "1.2 b197",
+    "version": "1.3 b1212",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/app-icon.png",

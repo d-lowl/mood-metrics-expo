@@ -77,3 +77,24 @@ export const authenticationMutation = gql`
     }
   }
 `;
+
+export const sendAnalytics = gql`
+  mutation ($type: ActionType!,
+            $payload: Json!,
+            $sessionId: String!,
+            $deviceDetails: Json!,
+            $devMode: Boolean!,
+            $appVersion: String!)
+  {
+    createAnalyticEntry(
+      type: $type,
+      payload: $payload,
+      sessionId: $sessionId,
+      deviceDetails: $deviceDetails,
+      devMode: $devMode,
+      appVersion: $appVersion
+    ){
+      id
+    }
+  }
+`;

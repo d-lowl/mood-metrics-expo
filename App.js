@@ -2,15 +2,60 @@ import Expo from "expo";
 import React from "react";
 import { Provider } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
+import { submitAnalytics,
+         analyticsTypes,
+         getEnterScreenPayload,
+         getOpenApplicationPayload } from './src/utils/AnalyticsHelper.js';
 
 import { store, apolloClient } from './src/Store';
 import BaseNavigation from './src/Router';
 
-const App = () => (
-  <ApolloProvider store={store} client={apolloClient}>
-    <BaseNavigation />
-  </ApolloProvider>
-);
+class App extends React.Component {
+
+  getCurrentRouteName (navigationState)  {
+    if (!navigationState) {
+      return null
+    }
+    const route = navigationState.routes[navigationState.index]
+    // dive into nested navigators
+    if (route.routes) {
+      return this.getCurrentRouteName(route)
+    }
+    return route.routeName
+  }
+
+  componentDidMount() {
+    submitAnalytics(analyticsTypes.OPEN_APPLICATION, getOpenApplicationPayload());
+  }
+
+  render() {
+    // const tracker = new GoogleAnalyticsTracker("UA-110981334-1");
+
+    return(
+      <ApolloProvider store={store} client={apolloClient}>
+        <BaseNavigation
+          onNavigationStateChange={(prevState, currentState) => {
+            const currentScreen = this.getCurrentRouteName(currentState)
+            const prevScreen = this.getCurrentRouteName(prevState)
+
+            console.log("Screens");
+            console.log(currentScreen);
+            console.log(prevScreen);
+            if (prevScreen !== currentScreen) {
+              console.log("Submit:"+currentScreen);
+              submitAnalytics(analyticsTypes.ENTER_SCREEN, getEnterScreenPayload(currentScreen));
+              // tracker.trackScreenView(currentScreen)
+              // console.log
+            }
+            // if (prevScreen !== currentScreen) {
+            //   tracker.trackScreenView(currentScreen)
+            // }
+          }}
+        />
+      </ApolloProvider>
+    );
+  }
+}
 
 class App1 extends React.Component {
   constructor() {

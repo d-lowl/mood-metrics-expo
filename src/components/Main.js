@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Container, Content, Button, Text, StyleProvider } from 'native-base';
+import { Platform } from 'react-native';
 
 import FullScreenContent from './common/FullScreenContent';
 import LoadingSpinner from './common/LoadingSpinner';
@@ -100,7 +101,7 @@ class Main extends Component {
       <StyledContainer>
         <FullScreenContent>
           {this.getContent()}
-          <Text style={{position: 'absolute', bottom: 0}}>Version: {Expo.Constants.manifest.version}</Text>
+          <Text style={{position: 'absolute', bottom: (Platform.OS === 'ios') ? 0 : Expo.Constants.statusBarHeight  }}>Version: {Expo.Constants.manifest.version}</Text>
         </FullScreenContent>
       </StyledContainer>
     );

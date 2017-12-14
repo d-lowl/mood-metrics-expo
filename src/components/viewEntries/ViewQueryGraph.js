@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Dimensions } from 'react-native';
+import { ScrollView, Dimensions, View } from 'react-native';
+import { Text, Badge } from 'native-base';
 import { graphql } from 'react-apollo';
-import { getPallete } from '../../styles/colorSchema.js';
+import LegendBadge from './LegendBadge.js';
+import colorSchema, { getPallete } from '../../styles/colorSchema.js';
 import { StockLine } from 'react-native-pathjs-charts';
 import { queryMoodEntriesInRange } from '../../utils/GraphQL.js';
 import { prepareDataSet } from '../../utils/DataSetHelper.js';
@@ -9,6 +11,22 @@ import { prepareDataSet } from '../../utils/DataSetHelper.js';
 const MIN_RESOLUTION = 5.0/60.0// 5 minutes
 const UNIT_WIDTH = 25.0;
 const MINIMUM_WIDTH_RATE = 0.8;
+
+const localStyle = (name) => {
+  name = name || "anger";
+  const style = {
+    badge: {
+      backgroundColor: colorSchema[name].thumb,
+      minWidth: 100,
+      margin: 5
+    },
+    half: {
+      flex: 1,
+    }
+  }
+
+  return style;
+}
 
 class ViewQueryGraph extends Component {
 
@@ -108,16 +126,31 @@ class ViewQueryGraph extends Component {
     }
 
     return(
-      <ScrollView
-        style={{height: 300, flex: 0}}
-        horizontal={true}>
-        <StockLine
-          data={dataSet.data}
-          options={options}
-          pallete={getPallete()}
-          xKey='time'
-          yKey='value' />
-      </ScrollView>
+      <View>
+        <ScrollView
+          style={{height: 300, flex: 0}}
+          horizontal={true}>
+          <StockLine
+            data={dataSet.data}
+            options={options}
+            pallete={getPallete()}
+            xKey='time'
+            yKey='value' />
+        </ScrollView>
+        <Text style={{alignSelf: 'center'}}>Graph legend:</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={localStyle().half}>
+            <LegendBadge name="anger"/>
+            <LegendBadge name="disgust"/>
+            <LegendBadge name="fear"/>
+          </View>
+          <View style={localStyle().half}>
+            <LegendBadge name="joy"/>
+            <LegendBadge name="sadness"/>
+            <LegendBadge name="surprise"/>
+          </View>
+        </View>
+      </View>
     )
   }
 }

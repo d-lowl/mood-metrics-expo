@@ -5,7 +5,7 @@
     "slug": "mood-metrics-expo",
     "privacy": "public",
     "sdkVersion": "21.0.0",
-    "version": "1.3 b1212",
+    "version": "1.3 b1215",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/app-icon.png",
@@ -17,6 +17,9 @@
         "ttf",
         "mp4"
       ]
+    },
+    "android": {
+      "package": "com.miakovlev.moodtracker"
     },
     "ios": {
       "supportsTablet": true

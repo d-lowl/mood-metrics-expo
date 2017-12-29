@@ -53,17 +53,22 @@ class ViewEntriesContainer extends Component {
 
   getComponents() {
     if(this.state.isCalendar)
+    {
+      console.log(new Date(this.state.range.to.toISOString()));
       return (
         <CalendarPicker
+          initialDate={new Date(this.state.range.from.toISOString())}
           startFromMonday={true}
           allowRangeSelection={false}
           onDateChange={(date, type) => {
-            console.log("DATE: "+date);
-            console.log("TYPE: "+type);
-            this.setState({range: getRangeFromDate(date)});
+            this.setState({
+              range: getRangeFromDate(date),
+              isCalendar: !this.state.isCalendar
+            });
           }}
         />
       );
+    }
     else
       return(
         <ViewQueryGraph

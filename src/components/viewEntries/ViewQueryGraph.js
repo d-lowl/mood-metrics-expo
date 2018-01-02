@@ -73,7 +73,7 @@ class ViewQueryGraph extends Component {
     let md = this.getResolution(dataSet.minDelta, dataSet.count)
 
     let options = {
-      width: this.getWidth(dataSet.cound,md),
+      width: this.getWidth(dataSet.count,md),
       height: 250,
       color: '#000000',
       strokeWidth: 2,

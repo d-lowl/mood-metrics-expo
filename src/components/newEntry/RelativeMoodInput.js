@@ -36,7 +36,8 @@ class RelativeMoodInput extends Component {
   constructMood() {
     var mood = {};
 
-    const ks = [0, 0.1, 0.35, 0.9];
+    // const ks = [0, 0.1, 0.35, 0.9];
+    const ks = [0, 0.123939, 0.301030, 0.602060];
 
     for (var v in this.state.currentMood) {
 

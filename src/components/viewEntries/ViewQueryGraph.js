@@ -73,6 +73,7 @@ class ViewQueryGraph extends Component {
     let md = this.getResolution(dataSet.minDelta, dataSet.count)
 
     let options = {
+      max: 7,
       width: this.getWidth(dataSet.count,md),
       height: 250,
       color: '#000000',
@@ -99,7 +100,7 @@ class ViewQueryGraph extends Component {
         labelFunction: ((v) => {
           let h = Math.floor(v);
           let m = Math.round((v - h) * 60)
-          return ""+h+(m > 10 ? ":" : ":0")+m;
+          return ""+h+(m < 10 ? ":0" : ":")+m;
         }),
         label: {
           fontFamily: 'Arial',

@@ -4,7 +4,6 @@ import { Text, Badge } from 'native-base';
 import { graphql } from 'react-apollo';
 import LegendBadge from './LegendBadge.js';
 import colorSchema, { getPallete } from '../../styles/colorSchema.js';
-import { StockLine } from 'react-native-pathjs-charts';
 import { queryMoodEntriesInRange } from '../../utils/GraphQL.js';
 import { prepareDataSet } from '../../utils/DataSetHelper.js';
 
@@ -73,6 +72,7 @@ class ViewQueryGraph extends Component {
     let md = this.getResolution(dataSet.minDelta, dataSet.count)
 
     let options = {
+      max: 7,
       width: this.getWidth(dataSet.count,md),
       height: 250,
       color: '#000000',

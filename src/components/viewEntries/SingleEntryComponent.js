@@ -60,8 +60,8 @@ class SingleEntryComponent extends Component {
 
     return(
       <View style={{alignSelf: 'center'}}>
-        <Text>Not enough entries for a graph</Text>
-        <Text>Last entry at: {time}</Text>
+        <Text note>Not enough entries for a graph</Text>
+        <Text>Last entry at {time}</Text>
         {this.constructBadges()}
       </View>
     )

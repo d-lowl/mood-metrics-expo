@@ -3,6 +3,7 @@ import { Text } from 'native-base';
 import { graphql } from 'react-apollo';
 import { queryMoodEntriesInRange } from '../../utils/GraphQL.js';
 import ViewQueryGraphComponent from './ViewQueryGraphComponent.js';
+import SingleEntryComponent from './SingleEntryComponent.js';
 import { prepareDataSet } from '../../utils/DataSetHelper.js';
 
 class ViewQueryGraph extends Component {
@@ -26,6 +27,12 @@ class ViewQueryGraph extends Component {
     if(!dataSet) {
       return(
         <Text>Empty</Text>
+      )
+    }
+
+    if(this.props.data.User.moodEntries.length === 1){
+      return(
+        <SingleEntryComponent dataSet={this.props.data.User.moodEntries[0]} />
       )
     }
 

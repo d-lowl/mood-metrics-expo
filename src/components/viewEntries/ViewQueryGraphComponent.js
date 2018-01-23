@@ -46,12 +46,6 @@ class ViewQueryGraphComponent extends Component {
 
     let dataSet = this.props.dataSet
 
-    if(!dataSet) {
-      return(
-        <Text>Empty</Text>
-      )
-    }
-
     let md = this.getResolution(dataSet.minDelta, dataSet.count)
 
     let options = {

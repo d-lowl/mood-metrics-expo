@@ -24,6 +24,9 @@ const localStyle = (name) => {
     },
     text: {
       minWidth: 70
+    },
+    quantity: {
+
     }
   }
 
@@ -33,10 +36,14 @@ const localStyle = (name) => {
 class LegendBadge extends Component {
 
   render() {
+    let text = capitalise(this.props.name);
+    let quantity = (this.props.quantity ? " "+this.props.quantity+"/7" : "");
+
     return(
       <View style={localStyle().container}>
         <View style={localStyle(this.props.name).circle}/>
-        <Text style={localStyle().text}>{capitalise(this.props.name)}</Text>
+        <Text style={localStyle().text}>{text}</Text>
+        <Text style={localStyle().quantity}>{quantity}</Text>
       </View>
     )
   }

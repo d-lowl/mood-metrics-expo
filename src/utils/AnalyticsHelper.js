@@ -1,6 +1,6 @@
 import { sendAnalytics } from './GraphQL.js';
 import { apolloClient } from '../Store';
-import { Platform } from 'react-native';
+import { Platform, AsyncStorage } from 'react-native';
 
 export const analyticsTypes = {
   ENTER_SCREEN: 'ENTER_SCREEN',
@@ -70,4 +70,12 @@ export function submitAnalytics(type, payload) {
       appVersion: Expo.Constants.manifest.version
     }
   })
+}
+
+export async function getGeekData() {
+  let secret = await AsyncStorage.getItem("auth:secret");
+  return JSON.stringify({
+    deviceDetails,
+    secret
+  });
 }

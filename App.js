@@ -6,7 +6,7 @@ import { submitAnalytics,
          analyticsTypes,
          getEnterScreenPayload,
          getOpenApplicationPayload } from './src/utils/AnalyticsHelper.js';
-
+import { Root } from 'native-base';
 import { store, apolloClient } from './src/Store';
 import BaseNavigation from './src/Router';
 
@@ -32,27 +32,29 @@ class App extends React.Component {
     // const tracker = new GoogleAnalyticsTracker("UA-110981334-1");
 
     return(
-      <ApolloProvider store={store} client={apolloClient}>
-        <BaseNavigation
-          onNavigationStateChange={(prevState, currentState) => {
-            const currentScreen = this.getCurrentRouteName(currentState)
-            const prevScreen = this.getCurrentRouteName(prevState)
+      <Root>
+        <ApolloProvider store={store} client={apolloClient}>
+          <BaseNavigation
+            onNavigationStateChange={(prevState, currentState) => {
+              const currentScreen = this.getCurrentRouteName(currentState)
+              const prevScreen = this.getCurrentRouteName(prevState)
 
-            console.log("Screens");
-            console.log(currentScreen);
-            console.log(prevScreen);
-            if (prevScreen !== currentScreen) {
-              console.log("Submit:"+currentScreen);
-              submitAnalytics(analyticsTypes.ENTER_SCREEN, getEnterScreenPayload(currentScreen));
-              // tracker.trackScreenView(currentScreen)
-              // console.log
-            }
-            // if (prevScreen !== currentScreen) {
-            //   tracker.trackScreenView(currentScreen)
-            // }
-          }}
-        />
-      </ApolloProvider>
+              console.log("Screens");
+              console.log(currentScreen);
+              console.log(prevScreen);
+              if (prevScreen !== currentScreen) {
+                console.log("Submit:"+currentScreen);
+                submitAnalytics(analyticsTypes.ENTER_SCREEN, getEnterScreenPayload(currentScreen));
+                // tracker.trackScreenView(currentScreen)
+                // console.log
+              }
+              // if (prevScreen !== currentScreen) {
+              //   tracker.trackScreenView(currentScreen)
+              // }
+            }}
+          />
+        </ApolloProvider>
+      </Root>
     );
   }
 }

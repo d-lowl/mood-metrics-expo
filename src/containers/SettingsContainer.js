@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Dimensions } from 'react-native';
-import { CheckBox, Text, Content, ListItem } from 'native-base';
+import { AsyncStorage, Dimensions, Clipboard } from 'react-native';
+import { CheckBox, Text, Content, ListItem, Button, Toast } from 'native-base';
 import StyledContainer from '../components/common/StyledContainer';
+import { getGeekData } from '../utils/AnalyticsHelper.js';
 
 const localStyle = () => {
   const {width: screenWidth} = Dimensions.get('window');
@@ -43,6 +44,16 @@ class SettingsContainer extends Component {
     this.setState({isRelative});
   }
 
+  copyGeekData = async () => {
+    await Clipboard.setString(await getGeekData());
+    console.log(await Clipboard.getString());
+    Toast.show({
+      text: "Geek data copied to clipboard. Do not share them publicly!",
+      type: "success",
+      duration: 2000
+    })
+  }
+
   render() {
     const isRelative = this.state.isRelative;
     return (
@@ -54,6 +65,10 @@ class SettingsContainer extends Component {
               checked={isRelative}
               onPress={this.toggleRelativeMode.bind(this)}
             />
+          </ListItem>
+          <ListItem style={localStyle().listItem}>
+            <Text>Geek Data</Text>
+            <Button small bordered onPress={this.copyGeekData}><Text>Copy to clipboard</Text></Button>
           </ListItem>
         </Content>
       </StyledContainer>

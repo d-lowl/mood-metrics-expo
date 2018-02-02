@@ -78,6 +78,16 @@ export const authenticationMutation = gql`
   }
 `;
 
+export const getUserGroup = gql`
+  query (
+    $user: ID
+  ){
+    User(id: $user){
+      group
+    }
+  }
+`;
+
 export const sendAnalytics = gql`
   mutation ($type: ActionType!,
             $payload: Json!,

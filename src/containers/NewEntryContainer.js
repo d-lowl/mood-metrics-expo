@@ -8,6 +8,7 @@ import NewEntryComponent from '../components/newEntry/NewEntryComponent.js'
 import { store } from '../Store';
 import { setState, newEntry } from '../actions';
 import { newEntryMutation, queryMoodEntriesInRange } from '../utils/GraphQL.js';
+import { applyExperimentalSettings } from '../utils/Experiment.js';
 import { submitAnalytics, getSubmitEntryPayload, analyticsTypes } from '../utils/AnalyticsHelper.js';
 import moment from 'moment';
 
@@ -41,6 +42,7 @@ class NewEntryContainer extends Component {
 
 
   async componentDidMount() {
+    await applyExperimentalSettings();
     const inRelativeMode = (await AsyncStorage.getItem('settings:is_relative') === "true" || false);
     this.setState({
       inRelativeMode

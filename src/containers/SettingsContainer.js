@@ -3,6 +3,7 @@ import { AsyncStorage, Dimensions, Clipboard } from 'react-native';
 import { CheckBox, Text, Content, ListItem, Button, Toast } from 'native-base';
 import StyledContainer from '../components/common/StyledContainer';
 import { getGeekData } from '../utils/AnalyticsHelper.js';
+import { applyExperimentalSettings } from '../utils/Experiment.js';
 
 const localStyle = () => {
   const {width: screenWidth} = Dimensions.get('window');
@@ -32,9 +33,12 @@ class SettingsContainer extends Component {
   }
 
   async componentWillMount() {
+    await applyExperimentalSettings();
     const isRelative = (await AsyncStorage.getItem('settings:is_relative') === "true" || false);
+    const isLocked = (await AsyncStorage.getItem('settings:locked') === "true" || false);
     this.setState({
-      isRelative
+      isRelative,
+      isLocked
     })
   }
 
@@ -62,6 +66,7 @@ class SettingsContainer extends Component {
           <ListItem style={localStyle().listItem}>
             <Text>Relative Input Mode</Text>
             <CheckBox
+              disabled={this.state.isLocked}
               checked={isRelative}
               onPress={this.toggleRelativeMode.bind(this)}
             />

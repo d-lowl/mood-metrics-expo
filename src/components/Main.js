@@ -12,7 +12,8 @@ import { graphql } from 'react-apollo';
 import NewEntryContainer from '../containers/NewEntryContainer.js';
 import ViewEntriesContainer from '../containers/ViewEntriesContainer.js';
 import uuidv4 from 'uuid/v4';
-import { authenticationMutation, queryLastMoodEntry } from '../utils/GraphQL.js';
+import { authenticationMutation, queryLastMoodEntry, getUserGroup } from '../utils/GraphQL.js';
+import { applyExperimentalSettings } from '../utils/Experiment.js';
 import { store, apolloClient } from '../Store';
 import { onAuth, newEntry } from '../actions';
 
@@ -54,6 +55,16 @@ class Main extends Component {
           }
         ))
       }
+
+      var group = (await apolloClient.query({
+        query: getUserGroup,
+        variables: {
+          user: mutation.data.authenticateAnonymousUser.id
+        }
+      })).data.User.group;
+
+      await AsyncStorage.setItem("auth:group",""+group);
+      await applyExperimentalSettings();
 
       store.dispatch(onAuth(mutation.data.authenticateAnonymousUser.id));
     }

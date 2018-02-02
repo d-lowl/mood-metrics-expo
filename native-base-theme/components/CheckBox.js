@@ -2,6 +2,9 @@ import variable from "./../variables/platform";
 
 export default (variables = variable) => {
   const checkBoxTheme = {
+    ".disabled": {
+      backgroundColor: variables.btnDisabledBg,
+    },
     ".checked": {
       "NativeBase.Icon": {
         color: variables.checkboxTickColor

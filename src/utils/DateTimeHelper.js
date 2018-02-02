@@ -16,3 +16,9 @@ export function getOneDayRange(date) {
     to: date.clone().add(1,'days')
   }
 }
+export function isInRange(x,a,b) {
+  console.log(x)
+  console.log(a)
+  console.log(b)
+  return x.isBetween(a,b,"day","[]");
+}

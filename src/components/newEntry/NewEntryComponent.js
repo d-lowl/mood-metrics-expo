@@ -65,7 +65,15 @@ class NewEntryComponent extends Component {
   }
 
   isWithRelativeValue() {
-    return this.props.inRelativeMode && !isEmpty(this.state.currentMood) && moment(this.props.datetime).isSame(moment(),'day');
+    return this.props.inRelativeMode
+        && !isEmpty(this.state.currentMood)
+        && moment(this.props.datetime).isSame(moment(),'day')
+        && (this.state.currentMood.anger != 0
+         || this.state.currentMood.disgust != 0
+         || this.state.currentMood.fear != 0
+         || this.state.currentMood.joy != 0
+         || this.state.currentMood.sadness != 0
+         || this.state.currentMood.surprise != 0);
   }
 
   getInput() {

@@ -4,8 +4,11 @@ import { StockLine } from 'react-native-pathjs-charts';
 import colorSchema, { getPallete } from '../../styles/colorSchema.js';
 import LegendBadge from './LegendBadge.js';
 import { ScrollView, Dimensions, View } from 'react-native';
+import { getFloatHours } from '../../utils/DataSetHelper.js';
+import moment from 'moment';
 
 const MIN_RESOLUTION = 5.0/60.0// 5 minutes
+const MULTI_MIN_RESOLUTION = 86400.0;// 1 day
 const UNIT_WIDTH = 25.0;
 const MINIMUM_WIDTH_RATE = 0.8;
 
@@ -38,8 +41,26 @@ class ViewQueryGraphComponent extends Component {
   }
 
   getResolution(minDelta, duration) {
+    if(this.props.isMultiDay)
+      return MULTI_MIN_RESOLUTION;
+
     var resolution = minDelta < MIN_RESOLUTION ? MIN_RESOLUTION : minDelta;
     return resolution;
+  }
+
+  getLabelFunction() {
+    if(this.props.isMultiDay) {
+      return ((v) => {
+        return moment.unix(v).format("Do MMM YYYY");
+      })
+    } else {
+      return ((v) => {
+        let _v = getFloatHours(v)
+        let h = Math.floor(_v);
+        let m = Math.round((_v - h) * 60)
+        return ""+h+(m < 10 ? ":0" : ":")+m;
+      })
+    }
   }
 
   render() {
@@ -73,11 +94,7 @@ class ViewQueryGraphComponent extends Component {
         orient: 'bottom',
         tickValues: [],
         tickCount: Math.ceil(1.0*dataSet.count/md),
-        labelFunction: ((v) => {
-          let h = Math.floor(v);
-          let m = Math.round((v - h) * 60)
-          return ""+h+(m < 10 ? ":0" : ":")+m;
-        }),
+        labelFunction: this.getLabelFunction(),
         label: {
           fontFamily: 'Arial',
           fontSize: 8,

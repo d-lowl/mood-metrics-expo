@@ -59,12 +59,21 @@ class ViewEntriesContainer extends Component {
         <CalendarPicker
           initialDate={new Date(this.state.range.from.toISOString())}
           startFromMonday={true}
-          allowRangeSelection={false}
+          allowRangeSelection={true}
           onDateChange={(date, type) => {
-            this.setState({
-              range: getRangeFromDate(date),
-              isCalendar: !this.state.isCalendar
-            });
+            if(type == "START_DATE") {
+              this.setState({
+                from: date,
+                range: getRangeFromDate(date),
+                isMultiDay: false
+              });
+            } else {
+              this.setState({
+                from: date,
+                range: getRangeFromDate(this.state.from,date),
+                isMultiDay: true
+              });
+            }
           }}
         />
       );
@@ -72,6 +81,7 @@ class ViewEntriesContainer extends Component {
     else
       return(
         <ViewQueryGraph
+          isMultiDay={this.state.isMultiDay}
           from={this.state.range.from.toISOString()}
           to={this.state.range.to.toISOString()}
           user={this.props.auth.id}/>
@@ -79,13 +89,15 @@ class ViewEntriesContainer extends Component {
   }
 
   render() {
+    var dateLabel = this.state.range.from.format("Do MMM YYYY") + " - " + this.state.range.to.format("Do MMM YYYY");
+
     return (
       <StyledContainer>
         <Content>
           <View style={localStyle().navigator}>
             <Button small
               onPress={() => {this.setState({isCalendar: !this.state.isCalendar})}}>
-              <Text>{this.state.range.from.format("Do MMM YYYY")}</Text>
+              <Text>{dateLabel}</Text>
             </Button>
           </View>
           {this.getComponents()}

@@ -12,7 +12,7 @@ class ViewQueryGraph extends Component {
     if(this.props.data.loading || this.props.data.User.moodEntries.length === 0)
       return null;
 
-    return prepareDataSet(this.props.data.User.moodEntries);
+    return prepareDataSet(this.props.data.User.moodEntries,this.props.isMultiDay);
   }
 
   render() {
@@ -30,6 +30,8 @@ class ViewQueryGraph extends Component {
       )
     }
 
+    console.log(dataSet)
+
     if(this.props.data.User.moodEntries.length === 1){
       return(
         <SingleEntryComponent dataSet={this.props.data.User.moodEntries[0]} />
@@ -37,7 +39,7 @@ class ViewQueryGraph extends Component {
     }
 
     return(
-      <ViewQueryGraphComponent dataSet={dataSet} />
+      <ViewQueryGraphComponent dataSet={dataSet} isMultiDay={this.props.isMultiDay} />
     )
   }
 }

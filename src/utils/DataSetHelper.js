@@ -1,11 +1,16 @@
 import moment from 'moment';
 
-export function prepareDataSet(entries) {
-  return formatForGraph(reduceWithMedian(assembleDuplicates(roundByMinutes(convertToMoment(entries),5))));
+export function prepareDataSet(entries,isMultiDay) {
+  if(isMultiDay) {
+    return formatForGraph(reduceWithMedian(assembleDuplicates(roundByDays(convertToMoment(entries)))));
+  } else {
+    return formatForGraph(reduceWithMedian(assembleDuplicates(roundByMinutes(convertToMoment(entries),5))));
+  }
 }
 
-function getFloatHours(datetime) {
-  return datetime.hours() + datetime.minutes() / 60.0;
+export function getFloatHours(datetime) {
+  var _datetime = moment.unix(datetime);
+  return _datetime.hours() + _datetime.minutes() / 60.0;
 }
 
 function formatForGraph(entries) {
@@ -13,7 +18,7 @@ function formatForGraph(entries) {
   var max = NaN, min = NaN;
   var previous = NaN, minDelta = NaN;
   for (var v in entries) {
-    let date = getFloatHours(moment(v));
+    let date = moment(v).unix();
     let delta = date - previous;
     minDelta = delta > minDelta ? minDelta : delta;
     max = date < max ? max : date;
@@ -112,7 +117,16 @@ function convertToMoment(entries) {
 function roundByMinutes(entries, n) {
   return entries.map(x => ({
     ...x,
-    createdAt: roundMomentByMinutes(x.createdAt,n)
+    createdAt: roundMomentByMinutes(x.createdAt,n),
+    trueCreatedAt: x.createdAt
+  }))
+}
+
+function roundByDays(entries) {
+  return entries.map(x => ({
+    ...x,
+    createdAt: roundMomentByDays(x.createdAt),
+    trueCreatedAt: x.createdAt
   }))
 }
 
@@ -122,4 +136,11 @@ function roundMomentByMinutes(m,n) {
   const rounded = Math.round(_m.minutes() / n) * n;
   _m.minutes(rounded).second(0);
   return _m;
+}
+
+function roundMomentByDays(m) {
+  const _m = m.clone();
+  const rounded = m.startOf('day');
+  // console.log(_m.toISOString() + " => " + rounded.toISOString());
+  return rounded;
 }

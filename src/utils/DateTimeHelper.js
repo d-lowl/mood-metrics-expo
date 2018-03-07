@@ -1,7 +1,11 @@
 import moment from 'moment';
 
-export function getRangeFromDate(startDate) {
-  return getOneDayRange(moment(startDate));
+export function getRangeFromDate(startDate,stopDate) {
+  if(stopDate) {
+    return getMultipleDayRange(moment(startDate), moment(stopDate));
+  } else {
+    return getOneDayRange(moment(startDate));
+  }
 }
 
 export function getToday(){
@@ -16,6 +20,14 @@ export function getOneDayRange(date) {
     to: date.clone().add(1,'days')
   }
 }
+
+export function getMultipleDayRange(date1, date2) {
+  return {
+    from: date1.clone(),
+    to: date2.clone().add(1,'days')
+  }
+}
+
 export function isInRange(x,a,b) {
   console.log(x)
   console.log(a)

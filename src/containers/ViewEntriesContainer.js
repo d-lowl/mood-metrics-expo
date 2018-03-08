@@ -89,7 +89,8 @@ class ViewEntriesContainer extends Component {
   }
 
   render() {
-    var dateLabel = this.state.range.from.format("Do MMM YYYY") + " - " + this.state.range.to.format("Do MMM YYYY");
+
+    var dateLabel = this.state.isMultiDay ? (this.state.range.from.format("Do MMM YYYY") + " - " + this.state.range.to.clone().subtract(1, 'days').format("Do MMM YYYY")) : this.state.range.from.format("Do MMM YYYY");
 
     return (
       <StyledContainer>

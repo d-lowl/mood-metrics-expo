@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Text, Button, Content } from 'native-base';
+import { Text, Button, Content, Segment } from 'native-base';
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
 import { graphql } from 'react-apollo';
@@ -35,7 +35,8 @@ class ViewEntriesContainer extends Component {
     super(props);
     this.state = {
       isCalendar: false,
-      range: getOneDayRange(getToday())
+      range: getOneDayRange(getToday()),
+      graphType: 'pie'
     };
   }
 
@@ -82,6 +83,7 @@ class ViewEntriesContainer extends Component {
       return(
         <ViewQueryGraph
           isMultiDay={this.state.isMultiDay}
+          graphType={this.state.graphType}
           from={this.state.range.from.toISOString()}
           to={this.state.range.to.toISOString()}
           user={this.props.auth.id}/>
@@ -91,9 +93,21 @@ class ViewEntriesContainer extends Component {
   render() {
 
     var dateLabel = this.state.isMultiDay ? (this.state.range.from.format("Do MMM YYYY") + " - " + this.state.range.to.clone().subtract(1, 'days').format("Do MMM YYYY")) : this.state.range.from.format("Do MMM YYYY");
+    var beforeSegment = (
+      <Segment>
+        <Button first active={this.state.graphType === 'line'}
+          onPress={() => {this.setState({graphType: 'line'})}}>
+          <Text>Line Chart</Text>
+        </Button>
+        <Button active={this.state.graphType === 'pie'}
+          onPress={() => {this.setState({graphType: 'pie'})}}>
+          <Text>Pie Chart</Text>
+        </Button>
+      </Segment>
+    );
 
     return (
-      <StyledContainer>
+      <StyledContainer before={beforeSegment}>
         <Content>
           <View style={localStyle().navigator}>
             <Button small

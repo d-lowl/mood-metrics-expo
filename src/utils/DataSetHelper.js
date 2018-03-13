@@ -1,16 +1,43 @@
 import moment from 'moment';
 
+Array.prototype.pairReduce = function(callback, initialValue) {
+  var accumulator = (initialValue === undefined) ? 0 : initialValue;
+  for (var i = 0; i < this.length - 1; i++) {
+    accumulator = callback(accumulator,this[i],this[i+1],i,this)
+  }
+}
+
+export function preparePieDataSet(entries) {
+  return formatForPieGraph(reduceWithMean(assembleDuplicates(flattenAll(convertToMoment(entries)))))
+}
+
 export function prepareDataSet(entries,isMultiDay) {
   if(isMultiDay) {
-    return formatForGraph(reduceWithMedian(assembleDuplicates(roundByDays(convertToMoment(entries)))));
+    return formatForGraph(reduceWithMean(assembleDuplicates(roundByDays(convertToMoment(entries)))));
   } else {
-    return formatForGraph(reduceWithMedian(assembleDuplicates(roundByMinutes(convertToMoment(entries),5))));
+    return formatForGraph(reduceWithMean(assembleDuplicates(roundByMinutes(convertToMoment(entries),5))));
   }
 }
 
 export function getFloatHours(datetime) {
   var _datetime = moment.unix(datetime);
   return _datetime.hours() + _datetime.minutes() / 60.0;
+}
+
+function formatForPieGraph(entries) {
+  if(Object.values(entries).length !== 1)
+    return null;
+
+  var singleEntry = Object.values(entries)[0];
+  var data = [];
+  for(var v in singleEntry) {
+    data.push({
+      name: v,
+      value: singleEntry[v]
+    })
+  }
+
+  return data;
 }
 
 function formatForGraph(entries) {
@@ -67,6 +94,22 @@ function median(arr) {
   return median;
 }
 
+function mean(arr) {
+  return arr.reduce(function(a, b) { return a + b; }) / arr.length;
+}
+
+function reduceWithMean(entries) {
+  for (var v in entries){
+    entries[v].anger = mean(entries[v].anger);
+    entries[v].disgust = mean(entries[v].disgust);
+    entries[v].fear = mean(entries[v].fear);
+    entries[v].joy = mean(entries[v].joy);
+    entries[v].sadness = mean(entries[v].sadness);
+    entries[v].surprise = mean(entries[v].surprise);
+  }
+  return entries;
+}
+
 function reduceWithMedian(entries) {
   for (var v in entries){
     entries[v].anger = median(entries[v].anger);
@@ -112,6 +155,14 @@ function convertToMoment(entries) {
     ...x,
     createdAt: moment(x.createdAt)
   }));
+}
+
+function flattenAll(entries) {
+  return entries.map(x => ({
+    ...x,
+    createdAt: moment.unix(0),
+    trueCreatedAt: x.createdAt
+  }))
 }
 
 function roundByMinutes(entries, n) {

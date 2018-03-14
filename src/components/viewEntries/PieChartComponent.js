@@ -98,7 +98,7 @@ class PieChartComponent extends Component {
     return(
       <View>
         <Pie
-          pallete={getPallete()}
+          pallete={getPallete(dataSet)}
           data={dataSet}
           options={options}
           accessorKey="value" />

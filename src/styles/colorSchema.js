@@ -36,11 +36,19 @@ function structFromRGBA(x) {
   return {'r': nums[0], 'g': nums[1], 'b': nums[2]};
 }
 
-export function getPallete(){
+export function getPallete(arr){
   var pallete = [];
-  for(var v in colorSchema){
-    pallete.push(structFromRGBA(colorSchema[v].thumb))
+
+  if (arr) {
+    for(var v in arr) {
+      pallete.push(structFromRGBA(colorSchema[arr[v].name].thumb))
+    }
+  } else {
+    for(var v in colorSchema){
+      pallete.push(structFromRGBA(colorSchema[v].thumb))
+    }
   }
+
 
   return pallete;
 }

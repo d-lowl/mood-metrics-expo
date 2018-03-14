@@ -25,10 +25,11 @@ function formatForPieGraph(entries) {
   var singleEntry = Object.values(entries)[0];
   var data = [];
   for(var v in singleEntry) {
-    data.push({
-      name: v,
-      value: singleEntry[v]
-    })
+    if(singleEntry[v] >= 0.1)
+      data.push({
+        name: v,
+        value: singleEntry[v]
+      })
   }
 
   return data;

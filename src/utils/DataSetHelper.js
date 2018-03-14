@@ -1,11 +1,5 @@
 import moment from 'moment';
 
-Array.prototype.pairReduce = function(callback, initialValue) {
-  var accumulator = (initialValue === undefined) ? 0 : initialValue;
-  for (var i = 0; i < this.length - 1; i++) {
-    accumulator = callback(accumulator,this[i],this[i+1],i,this)
-  }
-}
 
 export function preparePieDataSet(entries) {
   return formatForPieGraph(reduceWithMean(assembleDuplicates(flattenAll(convertToMoment(entries)))))

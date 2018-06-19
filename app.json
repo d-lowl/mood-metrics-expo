@@ -4,7 +4,7 @@
     "description": "Mood Tracker",
     "slug": "mood-metrics-expo",
     "privacy": "public",
-    "sdkVersion": "21.0.0",
+    "sdkVersion": "22.0.0",
     "version": "1.6 b1237",
     "orientation": "portrait",
     "primaryColor": "#cccccc",

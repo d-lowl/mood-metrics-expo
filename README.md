@@ -16,6 +16,6 @@ Interaction should be straight forward from this point, but if you have any ques
 Now you can run the app in iOS or Android simulator (if installed) or publish it to Expo.
 
 # Configuration
-Expo does not env variables configuration (as far as I am aware), hence the Graphcool backend URI is hardcoded in src/Store.js. Change it appropriately. 
+Expo does not support env variables configuration (as far as I am aware), hence the Graphcool backend URI is hardcoded in src/Store.js. Change it appropriately. 
 
 The backend schema and deployment instructions can be found at <https://github.com/d-lowl/mood-metrics-graphcool>
